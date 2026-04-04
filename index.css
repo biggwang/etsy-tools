@@ -1,0 +1,382 @@
+/* ===== Design System ===== */
+:root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121e;
+    --bg-card: #1a1a2e;
+    --bg-card-hover: #1f1f35;
+    --accent: #e94560;
+    --accent-hover: #ff6b81;
+    --accent-glow: rgba(233, 69, 96, 0.2);
+    --text-primary: #f0f0f5;
+    --text-secondary: #8888a0;
+    --border: #2a2a45;
+    --border-active: #e94560;
+    --success: #2ed573;
+    --error: #ff4757;
+    --warning: #ffa502;
+    --radius: 16px;
+    --radius-sm: 8px;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 40px rgba(233, 69, 96, 0.15);
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Layout ===== */
+#app {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+}
+
+/* ===== Header ===== */
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* ===== Upload Section ===== */
+#upload-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.upload-zone {
+    background: var(--bg-card);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-zone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, var(--accent-glow), transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition);
+    pointer-events: none;
+}
+
+.upload-zone:hover {
+    border-color: rgba(233, 69, 96, 0.4);
+    background: var(--bg-card-hover);
+}
+
+.upload-zone:hover::before {
+    opacity: 0.5;
+}
+
+.upload-zone.drag-over {
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+    box-shadow: var(--shadow-glow);
+}
+
+.upload-zone.drag-over::before {
+    opacity: 1;
+}
+
+.upload-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    filter: grayscale(0.2);
+}
+
+.upload-zone h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.upload-zone p {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+/* ===== Buttons ===== */
+.upload-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.55rem 1.6rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all var(--transition);
+    position: relative;
+    z-index: 1;
+}
+
+.upload-btn:hover {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+}
+
+.primary-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--accent), #c44569);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1));
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.primary-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(233, 69, 96, 0.35);
+}
+
+.primary-btn:hover:not(:disabled)::after {
+    opacity: 1;
+}
+
+.primary-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.primary-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ===== Progress ===== */
+#control-section {
+    margin-bottom: 2rem;
+}
+
+#progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin: 1.25rem 0 0.6rem;
+    overflow: hidden;
+}
+
+#progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--success));
+    width: 0%;
+    transition: width 0.4s ease;
+    border-radius: 3px;
+}
+
+#progress-text {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+/* ===== File List ===== */
+.file-list {
+    list-style: none;
+    margin-top: 1rem;
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.file-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.55rem 0.85rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    margin-bottom: 0.35rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    transition: background var(--transition);
+}
+
+.file-list li:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.file-list li .remove-btn {
+    background: none;
+    border: none;
+    color: var(--error);
+    cursor: pointer;
+    font-size: 0.95rem;
+    opacity: 0.6;
+    transition: opacity var(--transition);
+    padding: 0 0.25rem;
+}
+
+.file-list li .remove-btn:hover {
+    opacity: 1;
+}
+
+/* ===== File Preview ===== */
+.file-preview {
+    margin-top: 0.75rem;
+}
+
+.file-preview img {
+    max-width: 140px;
+    max-height: 140px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    object-fit: contain;
+}
+
+.file-preview p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.3rem;
+}
+
+/* ===== Preview Grid ===== */
+#preview-section {
+    margin-top: 1rem;
+}
+
+#preview-section h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+}
+
+#preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.preview-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform var(--transition), box-shadow var(--transition);
+    animation: cardFadeIn 0.4s ease forwards;
+}
+
+.preview-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.preview-card img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+}
+
+.preview-card .card-label {
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-align: center;
+    border-top: 1px solid var(--border);
+}
+
+.preview-card.error {
+    border: 1px solid var(--error);
+}
+
+.preview-card.error .card-label {
+    color: var(--error);
+}
+
+/* ===== Animations ===== */
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes pulseText {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.processing #progress-text {
+    animation: pulseText 1.5s infinite;
+}
+
+/* ===== Scrollbar ===== */
+.file-list::-webkit-scrollbar {
+    width: 4px;
+}
+.file-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.file-list::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+    #upload-section {
+        grid-template-columns: 1fr;
+    }
+    #preview-grid {
+        grid-template-columns: 1fr;
+    }
+    header h1 {
+        font-size: 1.6rem;
+    }
+}
