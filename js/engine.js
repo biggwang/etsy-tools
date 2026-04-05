@@ -312,12 +312,12 @@ export class PhotopeaEngine {
             reader.readAsDataURL(new Blob([artworkBuffer]));
         });
 
-        // 6. 아트워크를 별도 문서로 열어 픽셀을 복사한 뒤 Smart Object 문서에 붙여넣기
-        //    placed smart object 중첩은 템플릿에 따라 결과가 불안정할 수 있어
-        //    실제 픽셀 레이어를 붙여넣은 뒤 target bounds 기준으로 cover 정렬한다.
+        // 6. 아트워크를 현재 Smart Object 문서에 직접 삽입 후 target bounds 기준으로 cover 정렬
+        //    최근 copy / paste 경로는 Photopea에서 "Copied area is empty"를 내며
+        //    실제 픽셀이 들어오지 않는 회귀를 만들 수 있어서, 공식 App.open(..., true)
+        //    경로로 되돌린다.
         await this.runScript(`
             var soDoc = app.activeDocument;
-            var soDocName = soDoc.name;
 
             // ★★ 픽셀 단위로 강제 설정 (UnitValue 오류 방지) ★★
             var oldUnits = app.preferences.rulerUnits;
@@ -333,21 +333,9 @@ export class PhotopeaEngine {
             if (!(targetW > 0)) targetW = soW;
             if (!(targetH > 0)) targetH = soH;
 
-            // 아트워크를 별도 문서로 열고 전체 픽셀 복사
-            app.open("${artworkDataUrl}");
-            var artworkDoc = app.activeDocument;
-            artworkDoc.selection.selectAll();
-            artworkDoc.selection.copy();
-            artworkDoc.close(SaveOptions.DONOTSAVECHANGES);
-
-            // 스마트 오브젝트 문서를 이름으로 다시 찾아 새 레이어로 붙여넣기
-            for (var i = 0; i < app.documents.length; i++) {
-                if (app.documents[i].name === soDocName) {
-                    app.activeDocument = app.documents[i];
-                    break;
-                }
-            }
-            app.activeDocument.paste();
+            // 현재 문서(스마트 오브젝트)에 아트워크를 새 레이어로 삽입
+            app.activeDocument = soDoc;
+            app.open("${artworkDataUrl}", null, true);
 
             var doc = app.activeDocument;
             var layer = doc.activeLayer;
