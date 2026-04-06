@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Ethereal Atelier | All-in-One Workspace</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f7f9f7",
+                        "on-primary-fixed-variant": "#00210a",
+                        "tertiary-dim": "#a2c9ab",
+                        "tertiary": "#4c6650",
+                        "on-surface-variant": "#444944",
+                        "primary": "#4CAF50",
+                        "primary-fixed-dim": "#81C784",
+                        "outline-variant": "#c4c9c3",
+                        "surface-container-highest": "#e2e3e0",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f8faf8",
+                        "secondary-fixed": "#d7e8d9",
+                        "on-primary-fixed": "#000000",
+                        "error-dim": "#a70138",
+                        "inverse-on-surface": "#f0f1ed",
+                        "surface-variant": "#dee5dd",
+                        "surface": "#f8faf8",
+                        "secondary-container": "#C8E6C9",
+                        "on-tertiary-container": "#0a200f",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#d1e8d5",
+                        "primary-container": "#C8E6C9",
+                        "outline": "#747973",
+                        "on-primary-container": "#002107",
+                        "secondary-fixed-dim": "#bbccbe",
+                        "surface-container-high": "#e8eae6",
+                        "secondary": "#526354",
+                        "on-secondary-fixed-variant": "#3b4b3d",
+                        "secondary-dim": "#baccbc",
+                        "on-error": "#ffefef",
+                        "primary-dim": "#3d8c40",
+                        "tertiary-fixed-dim": "#b5ccb9",
+                        "on-secondary-fixed": "#111f14",
+                        "surface-dim": "#d9dbd7",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f1f4f1",
+                        "inverse-surface": "#2e312e",
+                        "primary-fixed": "#E8F5E9",
+                        "on-surface": "#1a1c1a",
+                        "on-background": "#1a1c1a",
+                        "inverse-primary": "#81c784",
+                        "on-tertiary-fixed": "#0a200f",
+                        "error-container": "#f74b6d",
+                        "on-error-container": "#510017",
+                        "surface-tint": "#4CAF50",
+                        "tertiary-container": "#E8F5E9",
+                        "surface-container": "#edf0ed",
+                        "on-secondary-container": "#111f14",
+                        "on-tertiary-fixed-variant": "#354b38",
+                        "error": "#b41340",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8faf8;
+        }
+
+        h1,
+        h2,
+        h3,
+        .brand-logo {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .glass-header {
+            background: rgba(248, 250, 248, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+    <style>
+        *,
+        ::before,
+        ::after {
+            --tw-border-spacing-x: 0;
+            --tw-border-spacing-y: 0;
+            --tw-translate-x: 0;
+            --tw-translate-y: 0;
+            --tw-rotate: 0;
+            --tw-skew-x: 0;
+            --tw-skew-y: 0;
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            --tw-pan-x: ;
+            --tw-pan-y: ;
+            --tw-pinch-zoom: ;
+            --tw-scroll-snap-strictness: proximity;
+            --tw-gradient-from-position: ;
+            --tw-gradient-via-position: ;
+            --tw-gradient-to-position: ;
+            --tw-ordinal: ;
+            --tw-slashed-zero: ;
+            --tw-numeric-figure: ;
+            --tw-numeric-spacing: ;
+            --tw-numeric-fraction: ;
+            --tw-ring-inset: ;
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgb(59 130 246 / 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+            --tw-brightness: ;
+            --tw-contrast: ;
+            --tw-grayscale: ;
+            --tw-hue-rotate: ;
+            --tw-invert: ;
+            --tw-saturate: ;
+            --tw-sepia: ;
+            --tw-drop-shadow: ;
+            --tw-backdrop-blur: ;
+            --tw-backdrop-brightness: ;
+            --tw-backdrop-contrast: ;
+            --tw-backdrop-grayscale: ;
+            --tw-backdrop-hue-rotate: ;
+            --tw-backdrop-invert: ;
+            --tw-backdrop-opacity: ;
+            --tw-backdrop-saturate: ;
+            --tw-backdrop-sepia: ;
+            --tw-contain-size: ;
+            --tw-contain-layout: ;
+            --tw-contain-paint: ;
+            --tw-contain-style:
+        }
+
+        ::backdrop {
+            --tw-border-spacing-x: 0;
+            --tw-border-spacing-y: 0;
+            --tw-translate-x: 0;
+            --tw-translate-y: 0;
+            --tw-rotate: 0;
+            --tw-skew-x: 0;
+            --tw-skew-y: 0;
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            --tw-pan-x: ;
+            --tw-pan-y: ;
+            --tw-pinch-zoom: ;
+            --tw-scroll-snap-strictness: proximity;
+            --tw-gradient-from-position: ;
+            --tw-gradient-via-position: ;
+            --tw-gradient-to-position: ;
+            --tw-ordinal: ;
+            --tw-slashed-zero: ;
+            --tw-numeric-figure: ;
+            --tw-numeric-spacing: ;
+            --tw-numeric-fraction: ;
+            --tw-ring-inset: ;
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgb(59 130 246 / 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+            --tw-brightness: ;
+            --tw-contrast: ;
+            --tw-grayscale: ;
+            --tw-hue-rotate: ;
+            --tw-invert: ;
+            --tw-saturate: ;
+            --tw-sepia: ;
+            --tw-drop-shadow: ;
+            --tw-backdrop-blur: ;
+            --tw-backdrop-brightness: ;
+            --tw-backdrop-contrast: ;
+            --tw-backdrop-grayscale: ;
+            --tw-backdrop-hue-rotate: ;
+            --tw-backdrop-invert: ;
+            --tw-backdrop-opacity: ;
+            --tw-backdrop-saturate: ;
+            --tw-backdrop-sepia: ;
+            --tw-contain-size: ;
+            --tw-contain-layout: ;
+            --tw-contain-paint: ;
+            --tw-contain-style:
+        }
+
+        /* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: #e5e7eb
+        }
+
+        ::after,
+        ::before {
+            --tw-content: ''
+        }
+
+        :host,
+        html {
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+            -moz-tab-size: 4;
+            tab-size: 4;
+            font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-feature-settings: normal;
+            font-variation-settings: normal;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        body {
+            margin: 0;
+            line-height: inherit
+        }
+
+        hr {
+            height: 0;
+            color: inherit;
+            border-top-width: 1px
+        }
+
+        abbr:where([title]) {
+            -webkit-text-decoration: underline dotted;
+            text-decoration: underline dotted
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: inherit;
+            font-weight: inherit
+        }
+
+        a {
+            color: inherit;
+            text-decoration: inherit
+        }
+
+        b,
+        strong {
+            font-weight: bolder
+        }
+
+        code,
+        kbd,
+        pre,
+        samp {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-feature-settings: normal;
+            font-variation-settings: normal;
+            font-size: 1em
+        }
+
+        small {
+            font-size: 80%
+        }
+
+        sub,
+        sup {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline
+        }
+
+        sub {
+            bottom: -.25em
+        }
+
+        sup {
+            top: -.5em
+        }
+
+        table {
+            text-indent: 0;
+            border-color: inherit;
+            border-collapse: collapse
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font-family: inherit;
+            font-feature-settings: inherit;
+            font-variation-settings: inherit;
+            font-size: 100%;
+            font-weight: inherit;
+            line-height: inherit;
+            letter-spacing: inherit;
+            color: inherit;
+            margin: 0;
+            padding: 0
+        }
+
+        button,
+        select {
+            text-transform: none
+        }
+
+        button,
+        input:where([type=button]),
+        input:where([type=reset]),
+        input:where([type=submit]) {
+            -webkit-appearance: button;
+            background-color: transparent;
+            background-image: none
+        }
+
+        :-moz-focusring {
+            outline: auto
+        }
+
+        :-moz-ui-invalid {
+            box-shadow: none
+        }
+
+        progress {
+            vertical-align: baseline
+        }
+
+        ::-webkit-inner-spin-button,
+        ::-webkit-outer-spin-button {
+            height: auto
+        }
+
+        [type=search] {
+            -webkit-appearance: textfield;
+            outline-offset: -2px
+        }
+
+        ::-webkit-search-decoration {
+            -webkit-appearance: none
+        }
+
+        ::-webkit-file-upload-button {
+            -webkit-appearance: button;
+            font: inherit
+        }
+
+        summary {
+            display: list-item
+        }
+
+        blockquote,
+        dd,
+        dl,
+        figure,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        hr,
+        p,
+        pre {
+            margin: 0
+        }
+
+        fieldset {
+            margin: 0;
+            padding: 0
+        }
+
+        legend {
+            padding: 0
+        }
+
+        menu,
+        ol,
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0
+        }
+
+        dialog {
+            padding: 0
+        }
+
+        textarea {
+            resize: vertical
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            opacity: 1;
+            color: #9ca3af
+        }
+
+        [role=button],
+        button {
+            cursor: pointer
+        }
+
+        :disabled {
+            cursor: default
+        }
+
+        audio,
+        canvas,
+        embed,
+        iframe,
+        img,
+        object,
+        svg,
+        video {
+            display: block;
+            vertical-align: middle
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto
+        }
+
+        [hidden]:where(:not([hidden=until-found])) {
+            display: none
+        }
+
+        [type='text'],
+        input:where(:not([type])),
+        [type='email'],
+        [type='url'],
+        [type='password'],
+        [type='number'],
+        [type='date'],
+        [type='datetime-local'],
+        [type='month'],
+        [type='search'],
+        [type='tel'],
+        [type='time'],
+        [type='week'],
+        [multiple],
+        textarea,
+        select {
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            border-color: #6b7280;
+            border-width: 1px;
+            border-radius: 0px;
+            padding-top: 0.5rem;
+            padding-right: 0.75rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            --tw-shadow: 0 0 #0000;
+        }
+
+        [type='text']:focus,
+        input:where(:not([type])):focus,
+        [type='email']:focus,
+        [type='url']:focus,
+        [type='password']:focus,
+        [type='number']:focus,
+        [type='date']:focus,
+        [type='datetime-local']:focus,
+        [type='month']:focus,
+        [type='search']:focus,
+        [type='tel']:focus,
+        [type='time']:focus,
+        [type='week']:focus,
+        [multiple]:focus,
+        textarea:focus,
+        select:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            --tw-ring-inset: var(--tw-empty,
+                    /*!*/
+                    /*!*/
+                );
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: #2563eb;
+            --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+            --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+            box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+            border-color: #2563eb
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #6b7280;
+            opacity: 1
+        }
+
+        ::-webkit-datetime-edit-fields-wrapper {
+            padding: 0
+        }
+
+        ::-webkit-date-and-time-value {
+            min-height: 1.5em;
+            text-align: inherit
+        }
+
+        ::-webkit-datetime-edit {
+            display: inline-flex
+        }
+
+        ::-webkit-datetime-edit,
+        ::-webkit-datetime-edit-year-field,
+        ::-webkit-datetime-edit-month-field,
+        ::-webkit-datetime-edit-day-field,
+        ::-webkit-datetime-edit-hour-field,
+        ::-webkit-datetime-edit-minute-field,
+        ::-webkit-datetime-edit-second-field,
+        ::-webkit-datetime-edit-millisecond-field,
+        ::-webkit-datetime-edit-meridiem-field {
+            padding-top: 0;
+            padding-bottom: 0
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            print-color-adjust: exact
+        }
+
+        [multiple],
+        [size]:where(select:not([size="1"])) {
+            background-image: initial;
+            background-position: initial;
+            background-repeat: unset;
+            background-size: initial;
+            padding-right: 0.75rem;
+            print-color-adjust: unset
+        }
+
+        [type='checkbox'],
+        [type='radio'] {
+            -webkit-appearance: none;
+            appearance: none;
+            padding: 0;
+            print-color-adjust: exact;
+            display: inline-block;
+            vertical-align: middle;
+            background-origin: border-box;
+            -webkit-user-select: none;
+            user-select: none;
+            flex-shrink: 0;
+            height: 1rem;
+            width: 1rem;
+            color: #2563eb;
+            background-color: #fff;
+            border-color: #6b7280;
+            border-width: 1px;
+            --tw-shadow: 0 0 #0000
+        }
+
+        [type='checkbox'] {
+            border-radius: 0px
+        }
+
+        [type='radio'] {
+            border-radius: 100%
+        }
+
+        [type='checkbox']:focus,
+        [type='radio']:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            --tw-ring-inset: var(--tw-empty,
+                    /*!*/
+                    /*!*/
+                );
+            --tw-ring-offset-width: 2px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: #2563eb;
+            --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+            --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+            box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)
+        }
+
+        [type='checkbox']:checked,
+        [type='radio']:checked {
+            border-color: transparent;
+            background-color: currentColor;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat
+        }
+
+        [type='checkbox']:checked {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+        }
+
+        @media (forced-colors: active) {
+            [type='checkbox']:checked {
+                -webkit-appearance: auto;
+                appearance: auto
+            }
+        }
+
+        [type='radio']:checked {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+        }
+
+        @media (forced-colors: active) {
+            [type='radio']:checked {
+                -webkit-appearance: auto;
+                appearance: auto
+            }
+        }
+
+        [type='checkbox']:checked:hover,
+        [type='checkbox']:checked:focus,
+        [type='radio']:checked:hover,
+        [type='radio']:checked:focus {
+            border-color: transparent;
+            background-color: currentColor
+        }
+
+        [type='checkbox']:indeterminate {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'%3e%3cpath stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 8h8'/%3e%3c/svg%3e");
+            border-color: transparent;
+            background-color: currentColor;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        @media (forced-colors: active) {
+            [type='checkbox']:indeterminate {
+                -webkit-appearance: auto;
+                appearance: auto
+            }
+        }
+
+        [type='checkbox']:indeterminate:hover,
+        [type='checkbox']:indeterminate:focus {
+            border-color: transparent;
+            background-color: currentColor
+        }
+
+        [type='file'] {
+            background: unset;
+            border-color: inherit;
+            border-width: 0;
+            border-radius: 0;
+            padding: 0;
+            font-size: unset;
+            line-height: inherit
+        }
+
+        [type='file']:focus {
+            outline: 1px solid ButtonText;
+            outline: 1px auto -webkit-focus-ring-color
+        }
+
+        .absolute {
+            position: absolute
+        }
+
+        .relative {
+            position: relative
+        }
+
+        .sticky {
+            position: sticky
+        }
+
+        .inset-0 {
+            inset: 0px
+        }
+
+        .top-0 {
+            top: 0px
+        }
+
+        .z-50 {
+            z-index: 50
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .mb-1 {
+            margin-bottom: 0.25rem
+        }
+
+        .mb-12 {
+            margin-bottom: 3rem
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem
+        }
+
+        .mb-3 {
+            margin-bottom: 0.75rem
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem
+        }
+
+        .mb-8 {
+            margin-bottom: 2rem
+        }
+
+        .mt-20 {
+            margin-top: 5rem
+        }
+
+        .mt-4 {
+            margin-top: 1rem
+        }
+
+        .flex {
+            display: flex
+        }
+
+        .grid {
+            display: grid
+        }
+
+        .hidden {
+            display: none
+        }
+
+        .aspect-\[11\/14\] {
+            aspect-ratio: 11/14
+        }
+
+        .aspect-\[2\/3\] {
+            aspect-ratio: 2/3
+        }
+
+        .aspect-\[4\/5\] {
+            aspect-ratio: 4/5
+        }
+
+        .aspect-square {
+            aspect-ratio: 1 / 1
+        }
+
+        .h-10 {
+            height: 2.5rem
+        }
+
+        .h-16 {
+            height: 4rem
+        }
+
+        .h-2 {
+            height: 0.5rem
+        }
+
+        .h-full {
+            height: 100%
+        }
+
+        .w-10 {
+            width: 2.5rem
+        }
+
+        .w-16 {
+            width: 4rem
+        }
+
+        .w-2 {
+            width: 0.5rem
+        }
+
+        .w-full {
+            width: 100%
+        }
+
+        .max-w-2xl {
+            max-width: 42rem
+        }
+
+        .max-w-6xl {
+            max-width: 72rem
+        }
+
+        .max-w-full {
+            max-width: 100%
+        }
+
+        .scale-95 {
+            --tw-scale-x: .95;
+            --tw-scale-y: .95;
+            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+        }
+
+        .cursor-pointer {
+            cursor: pointer
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr))
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr))
+        }
+
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr))
+        }
+
+        .flex-col {
+            flex-direction: column
+        }
+
+        .items-center {
+            align-items: center
+        }
+
+        .justify-center {
+            justify-content: center
+        }
+
+        .justify-between {
+            justify-content: space-between
+        }
+
+        .gap-2 {
+            gap: 0.5rem
+        }
+
+        .gap-3 {
+            gap: 0.75rem
+        }
+
+        .gap-4 {
+            gap: 1rem
+        }
+
+        .gap-6 {
+            gap: 1.5rem
+        }
+
+        .gap-8 {
+            gap: 2rem
+        }
+
+        .space-y-16> :not([hidden])~ :not([hidden]) {
+            --tw-space-y-reverse: 0;
+            margin-top: calc(4rem * calc(1 - var(--tw-space-y-reverse)));
+            margin-bottom: calc(4rem * var(--tw-space-y-reverse))
+        }
+
+        .space-y-4> :not([hidden])~ :not([hidden]) {
+            --tw-space-y-reverse: 0;
+            margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+            margin-bottom: calc(1rem * var(--tw-space-y-reverse))
+        }
+
+        .space-y-8> :not([hidden])~ :not([hidden]) {
+            --tw-space-y-reverse: 0;
+            margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+            margin-bottom: calc(2rem * var(--tw-space-y-reverse))
+        }
+
+        .overflow-hidden {
+            overflow: hidden
+        }
+
+        .rounded-full {
+            border-radius: 9999px
+        }
+
+        .rounded-lg {
+            border-radius: 0.5rem
+        }
+
+        .rounded-md {
+            border-radius: 0.375rem
+        }
+
+        .rounded-xl {
+            border-radius: 0.75rem
+        }
+
+        .border {
+            border-width: 1px
+        }
+
+        .border-2 {
+            border-width: 2px
+        }
+
+        .border-b-2 {
+            border-bottom-width: 2px
+        }
+
+        .border-b-4 {
+            border-bottom-width: 4px
+        }
+
+        .border-t {
+            border-top-width: 1px
+        }
+
+        .border-dashed {
+            border-style: dashed
+        }
+
+        .border-outline-variant\/10 {
+            border-color: rgb(196 201 195 / 0.1)
+        }
+
+        .border-outline-variant\/20 {
+            border-color: rgb(196 201 195 / 0.2)
+        }
+
+        .border-primary {
+            --tw-border-opacity: 1;
+            border-color: rgb(76 175 80 / var(--tw-border-opacity, 1))
+        }
+
+        .border-primary\/20 {
+            border-color: rgb(76 175 80 / 0.2)
+        }
+
+        .bg-emerald-50\/80 {
+            background-color: rgb(236 253 245 / 0.8)
+        }
+
+        .bg-emerald-500 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(16 185 129 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-on-surface\/40 {
+            background-color: rgb(26 28 26 / 0.4)
+        }
+
+        .bg-primary {
+            --tw-bg-opacity: 1;
+            background-color: rgb(76 175 80 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-primary-container {
+            --tw-bg-opacity: 1;
+            background-color: rgb(200 230 201 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-primary-container\/50 {
+            background-color: rgb(200 230 201 / 0.5)
+        }
+
+        .bg-secondary-container {
+            --tw-bg-opacity: 1;
+            background-color: rgb(200 230 201 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-secondary-container\/50 {
+            background-color: rgb(200 230 201 / 0.5)
+        }
+
+        .bg-surface-container-highest {
+            --tw-bg-opacity: 1;
+            background-color: rgb(226 227 224 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-surface-container-low {
+            --tw-bg-opacity: 1;
+            background-color: rgb(241 244 241 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-surface-container-lowest {
+            --tw-bg-opacity: 1;
+            background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-gradient-to-br {
+            background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))
+        }
+
+        .from-primary {
+            --tw-gradient-from: #4CAF50 var(--tw-gradient-from-position);
+            --tw-gradient-to: rgb(76 175 80 / 0) var(--tw-gradient-to-position);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)
+        }
+
+        .to-primary-dim {
+            --tw-gradient-to: #3d8c40 var(--tw-gradient-to-position)
+        }
+
+        .object-cover {
+            object-fit: cover
+        }
+
+        .p-2 {
+            padding: 0.5rem
+        }
+
+        .p-3 {
+            padding: 0.75rem
+        }
+
+        .p-4 {
+            padding: 1rem
+        }
+
+        .p-6 {
+            padding: 1.5rem
+        }
+
+        .p-8 {
+            padding: 2rem
+        }
+
+        .px-6 {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem
+        }
+
+        .px-8 {
+            padding-left: 2rem;
+            padding-right: 2rem
+        }
+
+        .py-12 {
+            padding-top: 3rem;
+            padding-bottom: 3rem
+        }
+
+        .py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem
+        }
+
+        .py-2\.5 {
+            padding-top: 0.625rem;
+            padding-bottom: 0.625rem
+        }
+
+        .py-3 {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem
+        }
+
+        .py-6 {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem
+        }
+
+        .pb-1 {
+            padding-bottom: 0.25rem
+        }
+
+        .text-center {
+            text-align: center
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+            line-height: 2rem
+        }
+
+        .text-3xl {
+            font-size: 1.875rem;
+            line-height: 2.25rem
+        }
+
+        .text-4xl {
+            font-size: 2.25rem;
+            line-height: 2.5rem
+        }
+
+        .text-\[10px\] {
+            font-size: 10px
+        }
+
+        .text-\[18px\] {
+            font-size: 18px
+        }
+
+        .text-\[20px\] {
+            font-size: 20px
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+            line-height: 1.75rem
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+            line-height: 1.25rem
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+            line-height: 1.75rem
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+            line-height: 1rem
+        }
+
+        .font-bold {
+            font-weight: 700
+        }
+
+        .font-extrabold {
+            font-weight: 800
+        }
+
+        .font-medium {
+            font-weight: 500
+        }
+
+        .font-semibold {
+            font-weight: 600
+        }
+
+        .uppercase {
+            text-transform: uppercase
+        }
+
+        .tracking-tight {
+            letter-spacing: -0.025em
+        }
+
+        .tracking-wider {
+            letter-spacing: 0.05em
+        }
+
+        .text-on-primary {
+            --tw-text-opacity: 1;
+            color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+        }
+
+        .text-on-primary-container {
+            --tw-text-opacity: 1;
+            color: rgb(0 33 7 / var(--tw-text-opacity, 1))
+        }
+
+        .text-on-secondary-container {
+            --tw-text-opacity: 1;
+            color: rgb(17 31 20 / var(--tw-text-opacity, 1))
+        }
+
+        .text-on-surface {
+            --tw-text-opacity: 1;
+            color: rgb(26 28 26 / var(--tw-text-opacity, 1))
+        }
+
+        .text-on-surface-variant {
+            --tw-text-opacity: 1;
+            color: rgb(68 73 68 / var(--tw-text-opacity, 1))
+        }
+
+        .text-primary {
+            --tw-text-opacity: 1;
+            color: rgb(76 175 80 / var(--tw-text-opacity, 1))
+        }
+
+        .text-secondary {
+            --tw-text-opacity: 1;
+            color: rgb(82 99 84 / var(--tw-text-opacity, 1))
+        }
+
+        .text-stone-900 {
+            --tw-text-opacity: 1;
+            color: rgb(28 25 23 / var(--tw-text-opacity, 1))
+        }
+
+        .opacity-0 {
+            opacity: 0
+        }
+
+        .opacity-70 {
+            opacity: 0.7
+        }
+
+        .shadow-lg {
+            --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-md {
+            --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-sm {
+            --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-primary\/10 {
+            --tw-shadow-color: rgb(76 175 80 / 0.1);
+            --tw-shadow: var(--tw-shadow-colored)
+        }
+
+        .backdrop-blur-xl {
+            --tw-backdrop-blur: blur(24px);
+            -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+            backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)
+        }
+
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms
+        }
+
+        .transition-colors {
+            transition-property: color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms
+        }
+
+        .transition-opacity {
+            transition-property: opacity;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms
+        }
+
+        .transition-transform {
+            transition-property: transform;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms
+        }
+
+        .hover\:bg-secondary-container:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgb(200 230 201 / var(--tw-bg-opacity, 1))
+        }
+
+        .hover\:bg-surface-container:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgb(237 240 237 / var(--tw-bg-opacity, 1))
+        }
+
+        .hover\:text-on-surface:hover {
+            --tw-text-opacity: 1;
+            color: rgb(26 28 26 / var(--tw-text-opacity, 1))
+        }
+
+        .hover\:text-primary:hover {
+            --tw-text-opacity: 1;
+            color: rgb(76 175 80 / var(--tw-text-opacity, 1))
+        }
+
+        .hover\:opacity-90:hover {
+            opacity: 0.9
+        }
+
+        .active\:opacity-80:active {
+            opacity: 0.8
+        }
+
+        .group:hover .group-hover\:scale-110 {
+            --tw-scale-x: 1.1;
+            --tw-scale-y: 1.1;
+            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+        }
+
+        .group:hover .group-hover\:opacity-100 {
+            opacity: 1
+        }
+
+        .dark\:bg-stone-900\/80:is(.dark *) {
+            background-color: rgb(28 25 23 / 0.8)
+        }
+
+        .dark\:text-stone-50:is(.dark *) {
+            --tw-text-opacity: 1;
+            color: rgb(250 250 249 / var(--tw-text-opacity, 1))
+        }
+
+        .dark\:shadow-none:is(.dark *) {
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr))
+            }
+        }
+
+        @media (min-width: 768px) {
+            .md\:flex {
+                display: flex
+            }
+
+            .md\:w-1\/3 {
+                width: 33.333333%
+            }
+
+            .md\:w-2\/3 {
+                width: 66.666667%
+            }
+
+            .md\:grid-cols-3 {
+                grid-template-columns: repeat(3, minmax(0, 1fr))
+            }
+
+            .md\:grid-cols-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr))
+            }
+
+            .md\:flex-row {
+                flex-direction: row
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+        }
+    </style>
+</head>
+
+<body class="text-on-surface" data-mode="connect">
+    <!-- TopNavBar (The Anchor) -->
+    <header class="bg-emerald-50/80 dark:bg-stone-900/80 backdrop-blur-xl shadow-sm dark:shadow-none sticky top-0 z-50">
+        <div class="flex justify-between items-center w-full px-6 py-3 max-w-full">
+            <div class="flex items-center gap-8">
+                <span class="text-xl font-bold tracking-tight text-stone-900 dark:text-stone-50">YgBoutique의 Magic
+                    Tools&nbsp;&nbsp;</span>
+                <nav class="hidden md:flex gap-6">
+                    <a class="text-primary border-b-2 border-primary pb-1 font-semibold" href="#">Mockup Studio</a>
+                    <a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Smart Resize</a>
+                    <a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Inventory</a>
+                    <a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Analytics</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-4">
+            </div>
+        </div>
+    </header>
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        <!-- Header Introduction -->
+        <div class="mb-12 text-center">
+            <h1 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2">Workspace Central</h1>
+            <p class="text-on-surface-variant max-w-2xl mx-auto">Design, automate, and export your Etsy listings in one
+                focused flow. No clutter, just creation.</p>
+        </div>
+        <div class="space-y-16">
+            <!-- Section 1: Upload & Create Mockups -->
+            <section class="space-y-8">
+                <div class="flex items-center gap-4">
+                    <span
+                        class="bg-primary text-on-primary w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg">1</span>
+                    <h2 class="text-2xl font-bold tracking-tight">Upload &amp; Create Mockups</h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Primary Upload: Digital Art -->
+                    <div
+                        class="bg-surface-container-low rounded-xl p-8 flex flex-col items-center justify-center text-center group cursor-pointer transition-all hover:bg-surface-container">
+                        <div
+                            class="w-16 h-16 bg-primary-container/50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-primary text-3xl">upload_file</span>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Upload Your Art</h3>
+                        <p class="text-on-surface-variant text-sm px-8">Drop your PNG, JPG, or SVG files here to start
+                            generating mockups.</p>
+                    </div>
+                    <!-- Secondary Upload: PSD Mockups -->
+                    <div
+                        class="bg-surface-container-low rounded-xl p-8 flex flex-col items-center justify-center text-center group cursor-pointer transition-all hover:bg-surface-container border-2 border-dashed border-outline-variant/20">
+                        <div
+                            class="w-16 h-16 bg-secondary-container/50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-secondary text-3xl">layers</span>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Batch Mockup (PSDs)</h3>
+                        <p class="text-on-surface-variant text-sm px-8">Upload multiple PSD templates to apply your art
+                            across various scenes.</p>
+                    </div>
+                </div>
+                <!-- Generated Mockups Grid -->
+                <div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="font-bold text-xl">Generated Previews</h3>
+                        <button
+                            class="bg-gradient-to-br from-primary to-primary-dim text-on-primary px-6 py-2.5 rounded-lg flex items-center gap-2 font-medium hover:opacity-90 transition-all scale-95 active:opacity-80 shadow-md shadow-primary/10">
+                            <span class="material-symbols-outlined text-[20px]">download</span>
+                            Download All
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <!-- Mockup Card 1 -->
+                        <div class="group relative bg-surface-container-low rounded-lg overflow-hidden aspect-square">
+                            <img class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXaj6yYS4bGx5Lglof169oFLzuhxxc9eYegXiRmNy22skNGUuWDHVdq533sCWg7POx9PNLLW5fvA4dsyNbuqcjyfQt5yC_2wtm0YrWyrD0yPYl853VLqntZUvCk9mhdzqKgPStaBBiT7XF1YlqppilJhZhd6jaR-849Sk-1Jg3Kde4QLRnwfV06HDj6-AGFx81C9OsxahubXdwKang7s0Kh8V41eFViHZ6nrygVeoz3y71Jz7_L_ACqG3HqLhgXza-JAxv0r3n9yU">
+                            <div
+                                class="absolute inset-0 bg-on-surface/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="bg-surface-container-lowest text-on-surface p-2 rounded-full shadow-lg">
+                                    <span class="material-symbols-outlined">download</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Mockup Card 2 -->
+                        <div class="group relative bg-surface-container-low rounded-lg overflow-hidden aspect-square">
+                            <img class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMbXtUipzGV4uEAR41iAcRqk6F-i659xDsdvgfVkPt2CNwvkDvORkigkAGtqkQx0DChyqtP7pz8HsxMsBOw4RFGY61898Nq0HO9tu2-CctUsZyQQ4JPU7BkGyaw8x1qXiktvQWpH5tIH_lsgM7v7jTGMlTWP4wwcjwdjUmHvVb8uGZgVylrflATp0_aat7Ry2aDdODqtSvtb8yfh3r43SPq0FgPlhm9vP-LJRbLaTC24X0wO-w5r84LYf3umxU9YMDXHR2pYgBPS4">
+                            <div
+                                class="absolute inset-0 bg-on-surface/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="bg-surface-container-lowest text-on-surface p-2 rounded-full shadow-lg">
+                                    <span class="material-symbols-outlined">download</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Mockup Card 3 -->
+                        <div class="group relative bg-surface-container-low rounded-lg overflow-hidden aspect-square">
+                            <img class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5qvssIwAUIxmaCFCSgRCMbeD4kk_xO-5mH92TJW4ircNpWtrswNs9WO_tsLN-OuSCqhED7i9C6sz9IjbiKgKKrYqktmbR55jeUnKYU64df7CFXMqBVZYPnhyCBdZ8L-tcMyuH2e-Xxw9WTVVgf7lCq4qr1SXGFYugkePBwa5YSz_7rGZT9yEAunWay48PVZfN1kht2QRc67I-c86ckdhmuhYQ-HYXm661_2puy_KwKpXnx3rCbyeqxNnWoTBbV6W_U3cszVdOfD0">
+                            <div
+                                class="absolute inset-0 bg-on-surface/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="bg-surface-container-lowest text-on-surface p-2 rounded-full shadow-lg">
+                                    <span class="material-symbols-outlined">download</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Mockup Card 4 -->
+                        <div class="group relative bg-surface-container-low rounded-lg overflow-hidden aspect-square">
+                            <img class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDiD6CwbZ3tPcJx-tzuznXOhVdI8mp5Env31XURFH8_liMCV8aEe4-Gq0GLrGu3EBuQ8jIJuos2Cm7nMH3NALTVz4pr_Uaij9I5UX-MJdojGlt7KoOadJlXhL0X2NR3sQz78WrvQLtLUUUHt7ELCI1aHsGv5vMQUb8ldGKrmLKjacYtJ0jmV3fv8EeeqgpANUH-YrmCXaAm7-WtKhjrnVC2Tn-2q0y9WdhEy4_PUHJRtKig_XMS6kA_tXb0iyEoYYa8vL3V3c7f8w">
+                            <div
+                                class="absolute inset-0 bg-on-surface/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="bg-surface-container-lowest text-on-surface p-2 rounded-full shadow-lg">
+                                    <span class="material-symbols-outlined">download</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Section 2: Smart Resize & Export -->
+            <section class="space-y-8">
+                <div class="flex items-center gap-4">
+                    <span
+                        class="bg-primary text-on-primary w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg">2</span>
+                    <h2 class="text-2xl font-bold tracking-tight">Smart Resize &amp; Export</h2>
+                </div>
+                <div class="bg-surface-container-low rounded-xl p-6">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <!-- Source File Upload -->
+                        <div class="w-full md:w-1/3 space-y-4">
+                            <div
+                                class="bg-surface-container-lowest border-2 border-primary/20 rounded-lg p-6 text-center h-full flex flex-col justify-center">
+                                <span class="material-symbols-outlined text-primary mb-3">add_photo_alternate</span>
+                                <p class="font-semibold text-sm">Source Image</p>
+                                <p class="text-xs text-on-surface-variant">Selected: abstract_bloom.png</p>
+                                <button class="mt-4 text-xs font-bold text-primary uppercase tracking-wider">Change
+                                    File</button>
+                            </div>
+                        </div>
+                        <!-- Multi-Select Grid -->
+                        <div class="w-full md:w-2/3">
+                            <p class="font-bold mb-4">Select Target Sizes</p>
+                            <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                                <div
+                                    class="bg-primary-container text-on-primary-container p-3 rounded-lg border border-primary/20 text-center cursor-pointer">
+                                    <p class="text-xs font-bold">2:3 Ratio</p>
+                                    <p class="text-[10px] opacity-70">24x36in</p>
+                                </div>
+                                <div
+                                    class="bg-primary-container text-on-primary-container p-3 rounded-lg border border-primary/20 text-center cursor-pointer">
+                                    <p class="text-xs font-bold">4:5 Ratio</p>
+                                    <p class="text-[10px] opacity-70">16x20in</p>
+                                </div>
+                                <div
+                                    class="bg-surface-container-highest p-3 rounded-lg text-center cursor-pointer hover:bg-secondary-container transition-colors">
+                                    <p class="text-xs font-bold">ISO</p>
+                                    <p class="text-[10px] opacity-70">A1-A4</p>
+                                </div>
+                                <div
+                                    class="bg-primary-container text-on-primary-container p-3 rounded-lg border border-primary/20 text-center cursor-pointer">
+                                    <p class="text-xs font-bold">11:14</p>
+                                    <p class="text-[10px] opacity-70">Standard</p>
+                                </div>
+                                <div
+                                    class="bg-surface-container-highest p-3 rounded-lg text-center cursor-pointer hover:bg-secondary-container transition-colors">
+                                    <p class="text-xs font-bold">1:1</p>
+                                    <p class="text-[10px] opacity-70">Square</p>
+                                </div>
+                                <div
+                                    class="bg-surface-container-highest p-3 rounded-lg text-center cursor-pointer hover:bg-secondary-container transition-colors">
+                                    <p class="text-xs font-bold">3:4</p>
+                                    <p class="text-[10px] opacity-70">18x24in</p>
+                                </div>
+                                <div
+                                    class="bg-surface-container-highest p-3 rounded-lg text-center cursor-pointer hover:bg-secondary-container transition-colors">
+                                    <p class="text-xs font-bold">5:7</p>
+                                    <p class="text-[10px] opacity-70">A5 Size</p>
+                                </div>
+                                <div
+                                    class="bg-surface-container-highest p-3 rounded-lg text-center cursor-pointer hover:bg-secondary-container transition-colors flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-sm">add</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Export Previews -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Size Preview Card 1 -->
+                    <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border-b-4 border-primary">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-bold">2:3 Ratio</h4>
+                                <span class="text-[10px] uppercase font-bold text-on-surface-variant">High-Res
+                                    Print</span>
+                            </div>
+                            <span class="material-symbols-outlined text-primary">check_circle</span>
+                        </div>
+                        <div
+                            class="bg-surface-container-low aspect-[2/3] rounded-md overflow-hidden mb-4 border border-outline-variant/10">
+                            <img class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuChEaackzSzIVsqEnU-99wrYwyNUe-iEv8xi76GDYs9oXkSNRlh7FDmH9AkItx1e8MzXp9zl224JaVYqPO6cATe8iLQPq3igv8M62Gj_4NL7XTu6gluywUZUZOEycXVHO2gMcHnESiufd1dBsUO2pZIVAWvfeUDYQkUKIbvVRTtYuO21LgUpDye1U2kIzPSH43_MuxulXU_nKPGPobFgYN0LSbySTIV1VFOoxoXd_mrUWABvarcfIZ_KKmqNcFmfVcSOLzfidaxYuk">
+                        </div>
+                        <button
+                            class="w-full py-2 bg-secondary-container text-on-secondary-container font-semibold rounded-lg text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+                            <span class="material-symbols-outlined text-[18px]">download_for_offline</span>
+                            Download PDF
+                        </button>
+                    </div>
+                    <!-- Size Preview Card 2 -->
+                    <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border-b-4 border-primary">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-bold">4:5 Ratio</h4>
+                                <span class="text-[10px] uppercase font-bold text-on-surface-variant">Social &amp;
+                                    Print</span>
+                            </div>
+                            <span class="material-symbols-outlined text-primary">check_circle</span>
+                        </div>
+                        <div
+                            class="bg-surface-container-low aspect-[4/5] rounded-md overflow-hidden mb-4 border border-outline-variant/10">
+                            <img class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD40tnFzZAk9Y1VizKv-WEFBTFGr3U4euU107QFbAoKEziwed5CP6BK2vnLG2mNmNt18qaNxanuH6Y_m2KJwMzoVTz2euND8B1L4BBNTRjNSi1Cj2TRyKjMlysyFp8U3x9mJ6rPYWcnEXNqdkA_5Spa-NXIXoBgGc38xLdx5ntdJ7_Lk4UfTS0RSTAys5UXzWlPjvUvD0CUhXXs-YxspBg1wd9zcfKM4q_CSt7fN0I4KkrZcUB0LLtQYFX91GtvwyWbJCSw40AAHJI">
+                        </div>
+                        <button
+                            class="w-full py-2 bg-secondary-container text-on-secondary-container font-semibold rounded-lg text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+                            <span class="material-symbols-outlined text-[18px]">download_for_offline</span>
+                            Download JPG
+                        </button>
+                    </div>
+                    <!-- Size Preview Card 3 -->
+                    <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border-b-4 border-primary">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-bold">11:14 Size</h4>
+                                <span class="text-[10px] uppercase font-bold text-on-surface-variant">Gallery
+                                    Standard</span>
+                            </div>
+                            <span class="material-symbols-outlined text-primary">check_circle</span>
+                        </div>
+                        <div
+                            class="bg-surface-container-low aspect-[11/14] rounded-md overflow-hidden mb-4 border border-outline-variant/10">
+                            <img class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBGY-Fs0p5X4Vy-2FmzO2hjMJ1bdxrbBDE1gzAv3dJENA7M8MoB0tn8nLz1tjyddotkVi6cdG_bnm46L7mVQK35_PHTDSkNlRFBxNeVX4ReH7zZ2ijpNhhX2_zIVkhwG-4IRq4HeQBk4CY12hZxZrtPlEbb3142kCTQwV6BwVJEd-08php4_OYXeFeTQErTt_ISP-n8vyHXBXdanZrIIFg7VkqbH2Ga5Kr_s4s9HcahNbJCPYL1iY9GwCIGi7gegSfSfYgRV4wtMs">
+                        </div>
+                        <button
+                            class="w-full py-2 bg-secondary-container text-on-secondary-container font-semibold rounded-lg text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+                            <span class="material-symbols-outlined text-[18px]">download_for_offline</span>
+                            Download ZIP
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <!-- Footer Status Bar -->
+    <footer class="mt-20 border-t border-outline-variant/10 py-6 bg-surface-container-lowest">
+        <div
+            class="max-w-6xl mx-auto px-6 flex justify-between items-center text-xs font-medium text-on-surface-variant">
+            <div class="flex items-center gap-6">
+                <span class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    System Active
+                </span>
+                <span>4 Files Uploaded</span>
+                <span>Mockup Engine v2.4</span>
+            </div>
+            <div class="flex gap-4">
+                <a class="hover:text-primary transition-colors" href="#">Documentation</a>
+                <a class="hover:text-primary transition-colors" href="#">Etsy API Settings</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

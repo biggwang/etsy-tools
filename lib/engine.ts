@@ -1,15 +1,19 @@
 /**
- * Photopea iframe 통신 엔진
+ * Photopea iframe 통신 엔진 (TypeScript 포팅)
  * postMessage API를 사용하여 Photopea와 양방향 통신
  */
 export class PhotopeaEngine {
-    constructor(iframeId) {
-        this.iframe = document.getElementById(iframeId);
-        this.window = this.iframe.contentWindow;
+    private iframe: HTMLIFrameElement;
+    private window: Window;
+    ready: boolean;
+
+    constructor(iframe: HTMLIFrameElement) {
+        this.iframe = iframe;
+        this.window = iframe.contentWindow!;
         this.ready = false;
 
         // 글로벌 리스너: Photopea 준비 상태 감지
-        window.addEventListener('message', (e) => {
+        window.addEventListener('message', (e: MessageEvent) => {
             if (e.source === this.window && e.data === 'done') {
                 if (!this.ready) {
                     this.ready = true;
@@ -22,7 +26,7 @@ export class PhotopeaEngine {
     /**
      * Photopea iframe 로딩 대기
      */
-    waitReady(timeoutMs = 120000) {
+    waitReady(timeoutMs = 120000): Promise<void> {
         if (this.ready) return Promise.resolve();
         return new Promise((resolve, reject) => {
             const timer = setTimeout(() => reject(new Error('Photopea 로딩 타임아웃 (120초)')), timeoutMs);
@@ -40,9 +44,8 @@ export class PhotopeaEngine {
      * Photopea 스크립트 실행.
      * 스크립트 끝에 고유 UID를 echo하여 다른 "done" 메시지와 절대 혼동되지 않도록 함.
      */
-    runScript(script, timeoutMs = 120000) {
+    runScript(script: string, timeoutMs = 120000): Promise<(string | ArrayBuffer)[]> {
         const uid = 'SCRIPT_DONE_' + Math.random().toString(36).slice(2);
-        // UID echo를 스크립트 마지막에 명시적으로 추가
         const finalScript = script + `\napp.echoToOE("${uid}");`;
 
         return new Promise((resolve, reject) => {
@@ -51,18 +54,16 @@ export class PhotopeaEngine {
                 reject(new Error('Photopea 스크립트 타임아웃'));
             }, timeoutMs);
 
-            const results = [];
-            const handler = (event) => {
+            const results: (string | ArrayBuffer)[] = [];
+            const handler = (event: MessageEvent) => {
                 if (event.source !== this.window) return;
                 const data = event.data;
 
                 if (data === uid) {
-                    // 우리 스크립트가 완료됨
                     clearTimeout(timer);
                     window.removeEventListener('message', handler);
                     resolve(results);
                 } else if (data !== 'done' && !(typeof data === 'string' && data.startsWith('SCRIPT_DONE_'))) {
-                    // ArrayBuffer(saveToOE 결과)나 echoToOE 문자열 수집
                     results.push(data);
                 }
             };
@@ -74,14 +75,14 @@ export class PhotopeaEngine {
     /**
      * 파일(ArrayBuffer)을 Photopea로 전송 → 새 문서로 열림
      */
-    sendFile(arrayBuffer, timeoutMs = 120000) {
+    sendFile(arrayBuffer: ArrayBuffer, timeoutMs = 120000): Promise<void> {
         return new Promise((resolve, reject) => {
             const timer = setTimeout(() => {
                 window.removeEventListener('message', handler);
                 reject(new Error('Photopea 파일 로딩 타임아웃'));
             }, timeoutMs);
 
-            const handler = (event) => {
+            const handler = (event: MessageEvent) => {
                 if (event.source !== this.window) return;
                 if (event.data === 'done') {
                     clearTimeout(timer);
@@ -90,7 +91,6 @@ export class PhotopeaEngine {
                 }
             };
             window.addEventListener('message', handler);
-            // ArrayBuffer 소유권 이전으로 대용량 파일도 빠르게 전송
             this.window.postMessage(arrayBuffer, '*', [arrayBuffer]);
         });
     }
@@ -98,7 +98,7 @@ export class PhotopeaEngine {
     /**
      * JPG 전용 추출: saveToOE가 보내는 ArrayBuffer를 올바르게 수신
      */
-    exportJPG(quality = 0.8, timeoutMs = 120000) {
+    exportJPG(quality = 0.8, timeoutMs = 120000): Promise<ArrayBuffer | null> {
         const uid = 'EXPORT_DONE_' + Math.random().toString(36).slice(2);
         const script = `app.activeDocument.saveToOE("jpg:${quality}");\napp.echoToOE("${uid}");`;
 
@@ -108,16 +108,14 @@ export class PhotopeaEngine {
                 reject(new Error('JPG 추출 타임아웃'));
             }, timeoutMs);
 
-            let jpgBuffer = null;
-            const handler = (event) => {
+            let jpgBuffer: ArrayBuffer | null = null;
+            const handler = (event: MessageEvent) => {
                 if (event.source !== this.window) return;
                 const data = event.data;
 
                 if (data instanceof ArrayBuffer) {
-                    // saveToOE 결과
                     jpgBuffer = data;
                 } else if (data === uid) {
-                    // 스크립트 완료 신호
                     clearTimeout(timer);
                     window.removeEventListener('message', handler);
                     resolve(jpgBuffer);
@@ -131,7 +129,7 @@ export class PhotopeaEngine {
     /**
      * 열려있는 모든 문서 닫기
      */
-    async closeAllDocuments() {
+    async closeAllDocuments(): Promise<void> {
         await this.runScript(`
             while (app.documents.length > 0) {
                 app.activeDocument.close(SaveOptions.DONOTSAVECHANGES);
@@ -142,7 +140,11 @@ export class PhotopeaEngine {
     /**
      * 핵심 메서드: 스마트 오브젝트에 아트워크 교체 후 JPG 반환
      */
-    async replaceSmartObject(psdBuffer, artworkBuffer, layerName = '모양 1') {
+    async replaceSmartObject(
+        psdBuffer: ArrayBuffer,
+        artworkBuffer: ArrayBuffer,
+        layerName = '모양 1'
+    ): Promise<ArrayBuffer | null> {
         // 1. 기존 열린 문서 모두 닫기
         try { await this.closeAllDocuments(); } catch (_) {}
 
@@ -156,7 +158,7 @@ export class PhotopeaEngine {
         const mainDocMessage = mainDocInfo.find(
             (entry) => typeof entry === 'string' && entry.startsWith('MAIN_DOC:')
         );
-        const mainDocName = mainDocMessage ? mainDocMessage.replace('MAIN_DOC:', '') : null;
+        const mainDocName = mainDocMessage ? (mainDocMessage as string).replace('MAIN_DOC:', '') : null;
 
         // 3. 스마트 오브젝트 레이어를 찾아 내부 편집 모드로 진입
         console.log('[Engine] 스마트 오브젝트 열기...');
@@ -171,7 +173,7 @@ export class PhotopeaEngine {
             }
         `);
 
-        const soMessage = soResult.find(r => typeof r === 'string');
+        const soMessage = soResult.find(r => typeof r === 'string') as string | undefined;
         if (soMessage && soMessage.startsWith('ERROR:')) {
             throw new Error(`레이어 "${layerName}"를 찾을 수 없습니다: ${soMessage}`);
         }
@@ -284,10 +286,14 @@ export class PhotopeaEngine {
             (entry) => typeof entry === 'string' && entry.startsWith('TARGET_BOUNDS:')
         );
 
-        let targetBounds = null;
+        let targetBounds: {
+            left: number; top: number; width: number; height: number;
+            source: string; canvasWidth: number; canvasHeight: number;
+        } | null = null;
+
         if (targetMessage) {
             try {
-                targetBounds = JSON.parse(targetMessage.replace('TARGET_BOUNDS:', ''));
+                targetBounds = JSON.parse((targetMessage as string).replace('TARGET_BOUNDS:', ''));
             } catch (err) {
                 console.warn('[Engine] placeholder bounds 파싱 실패, 캔버스 전체로 대체합니다.', err);
             }
@@ -306,24 +312,19 @@ export class PhotopeaEngine {
 
         // 5. 아트워크를 Base64로 변환
         console.log('[Engine] 아트워크 삽입 및 리사이즈...');
-        const artworkDataUrl = await new Promise((resolve) => {
+        const artworkDataUrl = await new Promise<string>((resolve) => {
             const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
+            reader.onload = () => resolve(reader.result as string);
             reader.readAsDataURL(new Blob([artworkBuffer]));
         });
 
         // 6. 아트워크를 현재 Smart Object 문서에 직접 삽입 후 target bounds 기준으로 cover 정렬
-        //    최근 copy / paste 경로는 Photopea에서 "Copied area is empty"를 내며
-        //    실제 픽셀이 들어오지 않는 회귀를 만들 수 있어서, 공식 App.open(..., true)
-        //    경로로 되돌린다.
         await this.runScript(`
             var soDoc = app.activeDocument;
 
-            // ★★ 픽셀 단위로 강제 설정 (UnitValue 오류 방지) ★★
             var oldUnits = app.preferences.rulerUnits;
             app.preferences.rulerUnits = Units.PIXELS;
 
-            // 스마트 오브젝트 캔버스 크기를 픽셀로 명시적으로 읽기
             var soW = soDoc.width.value;
             var soH = soDoc.height.value;
             var targetLeft = ${Number(targetBounds?.left ?? 0)};
@@ -333,41 +334,34 @@ export class PhotopeaEngine {
             if (!(targetW > 0)) targetW = soW;
             if (!(targetH > 0)) targetH = soH;
 
-            // 현재 문서(스마트 오브젝트)에 아트워크를 새 레이어로 삽입
             app.activeDocument = soDoc;
             app.open("${artworkDataUrl}", null, true);
 
             var doc = app.activeDocument;
             var layer = doc.activeLayer;
 
-            // 레이어 경계를 픽셀 숫자로 추출 (.value 필수)
             var b = layer.bounds;
             var lw = b[2].value - b[0].value;
             var lh = b[3].value - b[1].value;
 
             if (lw > 0 && lh > 0) {
-                // Cover 스케일: 가로/세로 중 더 큰 비율로 target bounds를 완전히 채움
                 var sx = (targetW / lw) * 100;
                 var sy = (targetH / lh) * 100;
-                var scale = Math.max(sx, sy) * 1.01; // 1% 여유로 경계 빈틈 완전 제거
+                var scale = Math.max(sx, sy) * 1.01;
 
-                // 좌상단 기준 리사이즈 (MIDDLECENTER는 Photopea에서 불안정)
                 layer.resize(scale, scale, AnchorPosition.TOPLEFT);
 
-                // 리사이즈 후 새 경계값 다시 읽기
                 var nb = layer.bounds;
                 var nw = nb[2].value - nb[0].value;
                 var nh = nb[3].value - nb[1].value;
                 var nLeft = nb[0].value;
                 var nTop = nb[1].value;
 
-                // target bounds 중심으로 정렬
                 var cx = nLeft + nw / 2;
                 var cy = nTop + nh / 2;
                 layer.translate(targetLeft + targetW / 2 - cx, targetTop + targetH / 2 - cy);
             }
 
-            // 단위 설정 복원
             app.preferences.rulerUnits = oldUnits;
         `);
 
@@ -401,7 +395,7 @@ export class PhotopeaEngine {
             }
         `);
 
-        // 8. 메인 목업을 JPG로 추출 (전용 exportJPG 메서드 사용)
+        // 8. 메인 목업을 JPG로 추출
         console.log('[Engine] JPG 추출...');
         const jpgBuffer = await this.exportJPG(0.9);
         return jpgBuffer;

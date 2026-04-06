@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/* === Design System (Material Design 3 Green Theme from design.html) === */
+@theme inline {
+    /* Primary */
+    --color-primary: #4CAF50;
+    --color-primary-dim: #3d8c40;
+    --color-primary-container: #C8E6C9;
+    --color-primary-fixed: #E8F5E9;
+    --color-primary-fixed-dim: #81C784;
+    --color-on-primary: #ffffff;
+    --color-on-primary-container: #002107;
+    --color-on-primary-fixed: #000000;
+    --color-on-primary-fixed-variant: #00210a;
+    --color-inverse-primary: #81c784;
+
+    /* Secondary */
+    --color-secondary: #526354;
+    --color-secondary-dim: #baccbc;
+    --color-secondary-container: #C8E6C9;
+    --color-secondary-fixed: #d7e8d9;
+    --color-secondary-fixed-dim: #bbccbe;
+    --color-on-secondary: #ffffff;
+    --color-on-secondary-container: #111f14;
+    --color-on-secondary-fixed: #111f14;
+    --color-on-secondary-fixed-variant: #3b4b3d;
+
+    /* Tertiary */
+    --color-tertiary: #4c6650;
+    --color-tertiary-dim: #a2c9ab;
+    --color-tertiary-container: #E8F5E9;
+    --color-tertiary-fixed: #d1e8d5;
+    --color-tertiary-fixed-dim: #b5ccb9;
+    --color-on-tertiary: #ffffff;
+    --color-on-tertiary-container: #0a200f;
+    --color-on-tertiary-fixed: #0a200f;
+    --color-on-tertiary-fixed-variant: #354b38;
+
+    /* Surface */
+    --color-surface: #f8faf8;
+    --color-surface-dim: #d9dbd7;
+    --color-surface-bright: #f7f9f7;
+    --color-surface-variant: #dee5dd;
+    --color-surface-tint: #4CAF50;
+    --color-surface-container: #edf0ed;
+    --color-surface-container-low: #f1f4f1;
+    --color-surface-container-high: #e8eae6;
+    --color-surface-container-highest: #e2e3e0;
+    --color-surface-container-lowest: #ffffff;
+    --color-on-surface: #1a1c1a;
+    --color-on-surface-variant: #444944;
+    --color-inverse-surface: #2e312e;
+    --color-inverse-on-surface: #f0f1ed;
+
+    /* Error */
+    --color-error: #b41340;
+    --color-error-dim: #a70138;
+    --color-error-container: #f74b6d;
+    --color-on-error: #ffefef;
+    --color-on-error-container: #510017;
+
+    /* Outline */
+    --color-outline: #747973;
+    --color-outline-variant: #c4c9c3;
+
+    /* Background */
+    --color-background: #f8faf8;
+    --color-on-background: #1a1c1a;
+
+    /* Fonts */
+    --font-headline: 'Manrope', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-label: 'Inter', sans-serif;
+}
+
+/* === Base Styles === */
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, .brand-logo {
+    font-family: var(--font-headline);
+}
+
+/* === Glass Header === */
+.glass-header {
+    background: rgba(248, 250, 248, 0.8);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+/* === Material Symbols === */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* === Animations === */
+@keyframes card-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes pulse-text {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.animate-card-fade-in {
+    animation: card-fade-in 0.4s ease forwards;
+}
+
+.animate-pulse-text {
+    animation: pulse-text 1.5s infinite;
+}
+
+.animate-spin-slow {
+    animation: spin-slow 2s linear infinite;
+}
+
+/* === Upload Zone Drag Over === */
+.upload-zone-active {
+    border-color: var(--color-primary) !important;
+    background-color: var(--color-primary-fixed) !important;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+}
+
+/* === Progress Bar === */
+.progress-fill {
+    transition: width 0.4s ease;
+    background: linear-gradient(90deg, #4CAF50, #81C784);
+}
+
+/* === Scrollbar === */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-outline-variant);
+    border-radius: 2px;
+}
+
+/* === Focus Ring === */
+.focus-ring:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
