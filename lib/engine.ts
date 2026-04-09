@@ -27,16 +27,45 @@ export class PhotopeaEngine {
      * Photopea iframe 로딩 대기
      */
     waitReady(timeoutMs = 120000): Promise<void> {
+        this.window = this.iframe.contentWindow!;
         if (this.ready) return Promise.resolve();
         return new Promise((resolve, reject) => {
             const timer = setTimeout(() => reject(new Error('Photopea 로딩 타임아웃 (120초)')), timeoutMs);
-            const check = setInterval(() => {
+            const probe = () => {
                 if (this.ready) {
-                    clearInterval(check);
                     clearTimeout(timer);
                     resolve();
+                    return;
                 }
-            }, 200);
+
+                const uid = 'READY_PROBE_' + Math.random().toString(36).slice(2);
+                let settled = false;
+                const handler = (event: MessageEvent) => {
+                    if (event.source !== this.window) return;
+                    if (event.data !== uid) return;
+                    settled = true;
+                    this.ready = true;
+                    window.removeEventListener('message', handler);
+                    clearTimeout(timer);
+                    resolve();
+                };
+
+                window.addEventListener('message', handler);
+                try {
+                    this.window.postMessage(`app.echoToOE("${uid}");`, '*');
+                } catch {
+                    window.removeEventListener('message', handler);
+                }
+
+                setTimeout(() => {
+                    window.removeEventListener('message', handler);
+                    if (!settled && !this.ready) {
+                        probe();
+                    }
+                }, 300);
+            };
+
+            probe();
         });
     }
 
@@ -145,20 +174,20 @@ export class PhotopeaEngine {
         artworkBuffer: ArrayBuffer,
         layerName = '모양 1'
     ): Promise<ArrayBuffer | null> {
+        const operationId = Math.random().toString(36).slice(2);
+        const mainDocMarker = `OMX_MAIN_${operationId}`;
+        const smartObjectMarker = `OMX_SO_${operationId}`;
+        const anchorLayerMarker = `OMX_ANCHOR_${operationId}`;
+
         // 1. 기존 열린 문서 모두 닫기
-        try { await this.closeAllDocuments(); } catch (_) {}
+        try { await this.closeAllDocuments(); } catch {}
 
         // 2. PSD 파일 로드
         console.log('[Engine] PSD 열기...');
         await this.sendFile(psdBuffer.slice(0));
-
-        const mainDocInfo = await this.runScript(`
-            app.echoToOE("MAIN_DOC:" + app.activeDocument.name);
+        await this.runScript(`
+            app.activeDocument.name = ${JSON.stringify(mainDocMarker)};
         `);
-        const mainDocMessage = mainDocInfo.find(
-            (entry) => typeof entry === 'string' && entry.startsWith('MAIN_DOC:')
-        );
-        const mainDocName = mainDocMessage ? (mainDocMessage as string).replace('MAIN_DOC:', '') : null;
 
         // 3. 스마트 오브젝트 레이어를 찾아 내부 편집 모드로 진입
         console.log('[Engine] 스마트 오브젝트 열기...');
@@ -167,6 +196,7 @@ export class PhotopeaEngine {
                 var layer = app.activeDocument.layers.getByName("${layerName}");
                 app.activeDocument.activeLayer = layer;
                 executeAction(stringIDToTypeID("placedLayerEditContents"));
+                app.activeDocument.name = ${JSON.stringify(smartObjectMarker)};
                 app.echoToOE("SO_OPENED");
             } catch(e) {
                 app.echoToOE("ERROR:" + e.message);
@@ -310,70 +340,170 @@ export class PhotopeaEngine {
             }
         `);
 
-        // 5. 아트워크를 Base64로 변환
-        console.log('[Engine] 아트워크 삽입 및 리사이즈...');
+        // 5. 아트워크를 Data URL로 변환
+        console.log('[Engine] 아트워크 로드...');
         const artworkDataUrl = await new Promise<string>((resolve) => {
             const reader = new FileReader();
             reader.onload = () => resolve(reader.result as string);
             reader.readAsDataURL(new Blob([artworkBuffer]));
         });
 
-        // 6. 아트워크를 현재 Smart Object 문서에 직접 삽입 후 target bounds 기준으로 cover 정렬
-        await this.runScript(`
-            var soDoc = app.activeDocument;
-
-            var oldUnits = app.preferences.rulerUnits;
-            app.preferences.rulerUnits = Units.PIXELS;
-
-            var soW = soDoc.width.value;
-            var soH = soDoc.height.value;
-            var targetLeft = ${Number(targetBounds?.left ?? 0)};
-            var targetTop = ${Number(targetBounds?.top ?? 0)};
-            var targetW = ${JSON.stringify(targetBounds?.width ?? targetBounds?.canvasWidth ?? null)};
-            var targetH = ${JSON.stringify(targetBounds?.height ?? targetBounds?.canvasHeight ?? null)};
-            if (!(targetW > 0)) targetW = soW;
-            if (!(targetH > 0)) targetH = soH;
-
-            app.activeDocument = soDoc;
-            app.open("${artworkDataUrl}", null, true);
-
-            var doc = app.activeDocument;
-            var layer = doc.activeLayer;
-
-            var b = layer.bounds;
-            var lw = b[2].value - b[0].value;
-            var lh = b[3].value - b[1].value;
-
-            if (lw > 0 && lh > 0) {
-                var sx = (targetW / lw) * 100;
-                var sy = (targetH / lh) * 100;
-                var scale = Math.max(sx, sy) * 1.01;
-
-                layer.resize(scale, scale, AnchorPosition.TOPLEFT);
-
-                var nb = layer.bounds;
-                var nw = nb[2].value - nb[0].value;
-                var nh = nb[3].value - nb[1].value;
-                var nLeft = nb[0].value;
-                var nTop = nb[1].value;
-
-                var cx = nLeft + nw / 2;
-                var cy = nTop + nh / 2;
-                layer.translate(targetLeft + targetW / 2 - cx, targetTop + targetH / 2 - cy);
+        const anchorResult = await this.runScript(`
+            try {
+                var doc = app.activeDocument;
+                var baselineCount = doc.layers.length;
+                var mk = charIDToTypeID("Mk  ");
+                var desc = new ActionDescriptor();
+                var ref = new ActionReference();
+                ref.putClass(charIDToTypeID("Lyr "));
+                desc.putReference(charIDToTypeID("null"), ref);
+                executeAction(mk, desc, DialogModes.NO);
+                doc.activeLayer.name = ${JSON.stringify(anchorLayerMarker)};
+                doc.activeLayer.visible = true;
+                app.echoToOE("ANCHOR_READY:" + baselineCount + ":" + doc.layers.length);
+            } catch (e) {
+                app.echoToOE("ERROR:" + e.message);
             }
-
-            app.preferences.rulerUnits = oldUnits;
         `);
+        const anchorMessage = anchorResult.find(r => typeof r === 'string') as string | undefined;
+        if (anchorMessage?.startsWith('ERROR:')) {
+            throw new Error(`아트워크 준비 실패: ${anchorMessage}`);
+        }
+        const baselineCount = anchorMessage && anchorMessage.startsWith('ANCHOR_READY:')
+            ? Number((anchorMessage as string).split(':')[1])
+            : NaN;
+        if (!Number.isFinite(baselineCount)) {
+            throw new Error('아트워크 준비 실패: baseline layer count를 읽지 못했습니다.');
+        }
+
+        const insertStartResult = await this.runScript(`
+            try {
+                app.open(${JSON.stringify(artworkDataUrl)}, null, true);
+                app.echoToOE("INSERT_STARTED");
+            } catch (e) {
+                app.echoToOE("ERROR:" + e.message);
+            }
+        `);
+        const insertStartMessage = insertStartResult.find(r => typeof r === 'string') as string | undefined;
+        if (insertStartMessage?.startsWith('ERROR:')) {
+            throw new Error(`아트워크 삽입 시작 실패: ${insertStartMessage}`);
+        }
+
+        const waitForInsertedLayer = async (timeoutMs = 15000): Promise<void> => {
+            const startedAt = Date.now();
+            while (Date.now() - startedAt < timeoutMs) {
+                const statusResult = await this.runScript(`
+                    try {
+                        var doc = app.activeDocument;
+                        var activeName = "";
+                        try {
+                            activeName = doc.activeLayer ? (doc.activeLayer.name || "") : "";
+                        } catch (e) {}
+                        app.echoToOE("INSERT_STATUS:" + doc.layers.length + ":" + activeName);
+                    } catch (e) {
+                        app.echoToOE("ERROR:" + e.message);
+                    }
+                `, 5000);
+                const statusMessage = statusResult.find((entry) => typeof entry === 'string') as string | undefined;
+                if (statusMessage?.startsWith('ERROR:')) {
+                    throw new Error(`아트워크 삽입 대기 실패: ${statusMessage}`);
+                }
+                if (statusMessage?.startsWith('INSERT_STATUS:')) {
+                    const [, countRaw, activeName = ''] = (statusMessage as string).split(':');
+                    const currentCount = Number(countRaw);
+                    if (Number.isFinite(currentCount) && currentCount > baselineCount && activeName !== anchorLayerMarker) {
+                        return;
+                    }
+                }
+                await new Promise((resolve) => setTimeout(resolve, 150));
+            }
+            throw new Error('아트워크 삽입 실패: Photopea가 새 레이어를 활성화하지 못했습니다.');
+        };
+
+        await waitForInsertedLayer();
+
+        // 6. 삽입 완료된 레이어를 target bounds 기준으로 cover 정렬
+        console.log('[Engine] 아트워크 삽입 및 리사이즈...');
+        const insertResult = await this.runScript(`
+            try {
+                var doc = app.activeDocument;
+                var layer = doc.activeLayer;
+                if (!layer || (layer.name || "") === ${JSON.stringify(anchorLayerMarker)}) {
+                    throw new Error("INSERTED_LAYER_NOT_ACTIVE");
+                }
+
+                try { layer.visible = true; } catch (e) {}
+
+                var oldUnits = app.preferences.rulerUnits;
+                try {
+                    app.preferences.rulerUnits = Units.PIXELS;
+
+                    var targetLeft = ${Number(targetBounds?.left ?? 0)};
+                    var targetTop = ${Number(targetBounds?.top ?? 0)};
+                    var targetW = ${JSON.stringify(targetBounds?.width ?? targetBounds?.canvasWidth ?? null)};
+                    var targetH = ${JSON.stringify(targetBounds?.height ?? targetBounds?.canvasHeight ?? null)};
+                    if (!(targetW > 0)) targetW = doc.width.value;
+                    if (!(targetH > 0)) targetH = doc.height.value;
+
+                    var b = layer.bounds;
+                    var lw = b[2].value - b[0].value;
+                    var lh = b[3].value - b[1].value;
+
+                    if (lw > 0 && lh > 0) {
+                        var sx = (targetW / lw) * 100;
+                        var sy = (targetH / lh) * 100;
+                        var scale = Math.max(sx, sy) * 1.01;
+
+                        layer.resize(scale, scale, AnchorPosition.TOPLEFT);
+
+                        var nb = layer.bounds;
+                        var nw = nb[2].value - nb[0].value;
+                        var nh = nb[3].value - nb[1].value;
+                        var nLeft = nb[0].value;
+                        var nTop = nb[1].value;
+
+                        var cx = nLeft + nw / 2;
+                        var cy = nTop + nh / 2;
+                        layer.translate(targetLeft + targetW / 2 - cx, targetTop + targetH / 2 - cy);
+                    }
+
+                    try {
+                        if (layer.rasterize) {
+                            layer.rasterize(RasterizeType.ENTIRELAYER);
+                        }
+                    } catch (e) {}
+
+                    for (var i = 0; i < doc.layers.length; i++) {
+                        if ((doc.layers[i].name || "") === ${JSON.stringify(anchorLayerMarker)}) {
+                            doc.layers[i].remove();
+                            break;
+                        }
+                    }
+                } finally {
+                    app.preferences.rulerUnits = oldUnits;
+                }
+
+                app.echoToOE("ARTWORK_INSERTED");
+            } catch (e) {
+                app.echoToOE("ERROR:" + e.message);
+            }
+        `);
+        const insertMessage = insertResult.find(r => typeof r === 'string') as string | undefined;
+        if (insertMessage?.startsWith('ERROR:')) {
+            throw new Error(`아트워크 삽입 실패: ${insertMessage}`);
+        }
+        if (insertMessage !== 'ARTWORK_INSERTED') {
+            throw new Error('아트워크 삽입 실패: Photopea 응답이 누락되었습니다.');
+        }
 
         // 7. 스마트 오브젝트 저장 및 닫기 (메인 목업에 반영됨)
         console.log('[Engine] 스마트 오브젝트 저장 및 닫기...');
         await this.runScript(`
-            app.activeDocument.save();
-            app.activeDocument.close();
+            app.activeDocument.close(SaveOptions.SAVECHANGES);
             if (app.documents.length > 0) {
                 var restored = false;
                 for (var i = 0; i < app.documents.length; i++) {
-                    if (${JSON.stringify(mainDocName)} && app.documents[i].name === ${JSON.stringify(mainDocName)}) {
+                    if (app.documents[i].name === ${JSON.stringify(mainDocMarker)}) {
                         app.activeDocument = app.documents[i];
                         restored = true;
                         break;
@@ -392,6 +522,12 @@ export class PhotopeaEngine {
                     }
                     app.activeDocument = best;
                 }
+            }
+        `);
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await this.runScript(`
+            if (app.documents.length > 0) {
+                app.echoToOE("MAIN_DOC_READY:" + app.activeDocument.name);
             }
         `);
 
